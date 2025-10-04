@@ -44,7 +44,7 @@ func rename(path string, info os.FileInfo, err error) error {
 		dir := filepath.Dir(path)
 		ext := filepath.Ext(path)
 		start++
-		fn := fmt.Sprintf("%s-%d%s", prefix, start, ext)
+		fn := fmt.Sprintf("%s-%07d%s", prefix, start, ext)
 		newPath := filepath.Join(dir, fn)
 		fmt.Printf("renaming %s -> %s\n", path, newPath)
 		os.Rename(path, newPath)
@@ -67,7 +67,8 @@ func main() {
 	fmt.Printf("prefix='%s' dir='%s'\n", prefix, dir)
 	err := filepath.Walk(dir, scanNames)
 	if err != nil {
-		fmt.Errorf("walk failed ", err)
+		serr:= fmt.Errorf("walk failed ", err)
+		fmt.Println(serr) //
 	}
-	err = filepath.Walk(dir, rename)
+	_ = filepath.Walk(dir, rename)
 }
